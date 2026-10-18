@@ -502,10 +502,15 @@ button{cursor:pointer}
 .province-label{
   fill:#7a7764;font-family:var(--serif);font-size:15px;letter-spacing:.22em;
   text-anchor:middle;dominant-baseline:middle;
+  paint-order:stroke;stroke:rgba(239,227,202,.88);stroke-width:2.4px;stroke-linejoin:round;
 }
 .province-label.small{font-size:11px;letter-spacing:.12em}
 .province-label.taiwan{fill:#8f8a76}
 .province-label.taiwan-note{font-family:var(--sans);font-size:9px;letter-spacing:.08em;fill:#8f8a76}
+.taiwan-label .province-label{font-size:12px;letter-spacing:.08em;text-anchor:start}
+.taiwan-label .province-label.taiwan-note{font-size:9px;text-anchor:start}
+.taiwan-leader{stroke:#8f8a76;stroke-width:.8;stroke-dasharray:2 3}
+.taiwan-arrow{fill:#8f8a76;stroke:none}
 .map-route{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .map-route.early{stroke:var(--red);stroke-width:1.7;stroke-dasharray:5 8;opacity:.8}
 .map-route.south{stroke:var(--muted-2);stroke-width:1.1;stroke-dasharray:1 9;opacity:.34}
@@ -600,7 +605,6 @@ button{cursor:pointer}
 .lead-path{fill:none;stroke:var(--red);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(195,74,53,.55))}
 .lead-glow{fill:none;stroke:rgba(195,74,53,.25);stroke-width:9;stroke-linecap:round}
 .lead-target{fill:none;stroke:var(--red);stroke-width:1.4;stroke-dasharray:3 5;opacity:.75;animation:targetPulse 1s ease-in-out infinite}
-.lead-arrow .lead-dot{fill:var(--red);stroke:var(--gold-2);stroke-width:1.5}
 .lead-arrow .lead-head{fill:var(--red);stroke:var(--gold-2);stroke-width:.8;stroke-linejoin:round}
 @keyframes targetPulse{0%,100%{opacity:.35;r:15}50%{opacity:.9;r:22}}
 @keyframes torchGlow{0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
@@ -1267,8 +1271,10 @@ body.classroom .scene .art-dot{animation:none}
   .map-event .event-label{display:none}
   .province-label{font-size:22px;letter-spacing:.12em}
   .province-label.small{font-size:16px}
-  .province-label.cluster-province{display:none}
+  .province-label.cluster-province{display:block;font-size:17px;letter-spacing:.08em}
   .province-label.taiwan-note{font-size:14px}
+  .taiwan-label .province-label{font-size:18px}
+  .taiwan-label .province-label.taiwan-note{font-size:14px}
   .map-hint{display:block;top:12px;left:12px;bottom:auto}
   .map-journey-label,#mapRevealAll{display:none}
   .map-era-badge{top:54px;left:12px;padding:6px 8px}
@@ -1403,9 +1409,9 @@ body.classroom .scene .art-dot{animation:none}
       <a href="#ask">问答</a>
     </nav>
     <div class="head-tools">
-      <button class="classroom-btn" type="button" data-open-class aria-label="打开课堂控制台">
+      <button class="classroom-btn" type="button" data-open-class aria-label="打开演示控制台">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
-        <span>课堂</span>
+        <span>演示</span>
       </button>
       <button class="classroom-btn" type="button" data-open-sources aria-label="史料来源与叙事原则" title="史料来源与说明">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/><path d="M8 7h8M8 10h8"/></svg>
@@ -1427,7 +1433,7 @@ body.classroom .scene .art-dot{animation:none}
         <div>
           <p class="kicker">01 / 足迹</p>
           <h2 class="section-title" id="mapTitle">一张路线图，<em>八段</em>人生</h2>
-          <p class="section-intro">循迹模式：一开始只亮第01站；点开编号，先出现红色箭头，沿路线指向下一站；箭头到达后，下一站与“当年火炬”才出现，上一阶段火炬自动清除。老师可用“全显”一次展示全部八站与22件大事。底图为 CHGIS 1911 年历史省界，按 1920 年代省名对照标注，不是完整疆域图或精确的历史政区图。</p>
+          <p class="section-intro">循迹模式：一开始只亮第01站；点开编号，先出现红色箭头，沿路线指向下一站；箭头到达后，下一站与“当年火炬”才出现，上一阶段火炬自动清除。点右上角“全显”可一次展示全部八站与22件大事。底图为 CHGIS 1911 年历史省界，按 1920 年代省名对照标注，不是完整疆域图或精确的历史政区图。</p>
         </div>
         <div class="section-side">红色编号 · 人物足迹<br>红色火炬 · 时代大事</div>
       </div>
@@ -1477,10 +1483,9 @@ body.classroom .scene .art-dot{animation:none}
         <div class="era-item"><b>广西</b><span>当时为广西省，今为广西壮族自治区。</span></div>
         <div class="era-item"><b>台湾</b><span>台湾是中国领土不可分割的一部分，1895—1945年被日本侵占。图中以灰调标示。</span></div>
       </div>
-      <p class="map-source">读图提示：地图正北朝上（见右上指北针），经纬度按等比例缩放；本图以 CHGIS 1911 年省级政区数据为历史底图，叠加人物行经路线与时代事件。城市点位与路线为叙事清晰作了适度偏移，不是完整疆域图，也不作为1920年代历史政区或地理量测依据。1911年省界与1920年代有差异（如京兆、热河、察哈尔、绥远等），图中省名按1920年代习惯作对照标注；上海1927年设特别市，南京1927年设特别市，图中作为城市标注。</p>
+      <p class="map-source">地图说明：地图正北朝上（见右上指北针），经纬度按等比例缩放；本图以 CHGIS 1911 年省级政区数据为历史底图，叠加人物行经路线与时代事件。城市点位与路线为叙事清晰作了适度偏移，不是完整疆域图，也不作为1920年代历史政区或地理量测依据。1911年省界与1920年代有差异（如京兆、热河、察哈尔、绥远等），图中省名按1920年代习惯作对照标注；上海1927年设特别市，南京1927年设特别市，图中作为城市标注。</p>
       <p class="map-source">省区小注：1920年代全国还有奉天、吉林、黑龙江等省，以及热河、察哈尔、绥远等特别区；本图聚焦与邝鄘足迹相关的华北—中南—华南区域，未展开完整疆域，未展开南海诸岛。</p>
-      <p class="map-source">火炬口径：按当前阶段的年份范围显示（如1924—1925、1926、1927、1928年1—5月、1928年6月），换站即清除上一阶段火炬；“全显”模式展示全部22件，火炬标签在悬停或点开时显示。</p>
-      <p class="map-source">历史底图来源：CHGIS, Harvard Yenching Institute, 1911年省级政区数据（经 fusiwei339/chgis-1911-topojson 转制为 TopoJSON，MIT License）；仅用于课堂路线示意，不作为标准地图或历史政区研究成果使用。</p>
+      <p class="map-source">历史底图来源：CHGIS, Harvard Yenching Institute, 1911年省级政区数据（经 fusiwei339/chgis-1911-topojson 转制为 TopoJSON，MIT License）；仅用于路线示意，不作为标准地图或历史政区研究成果使用。</p>
     </div>
   </section>
 
@@ -1578,7 +1583,7 @@ body.classroom .scene .art-dot{animation:none}
         <div>
           <p class="kicker">04 / 问答</p>
           <h2 class="section-title" id="askTitle">如果他能听见，<em>我们会问</em>什么？</h2>
-          <p class="section-intro">五个问题，五张“时空卡片”。点击问题，展开一段史料与解读。课堂上可以选一两个问题，留给学生讨论。</p>
+          <p class="section-intro">五个问题，五张“时空卡片”。点击问题，展开一段史料与解读。</p>
         </div>
         <div class="section-side">史料卡片<br>点击展开</div>
       </div>
@@ -1607,8 +1612,8 @@ body.classroom .scene .art-dot{animation:none}
         <a href="#ask">时空问答</a>
       </div>
       <div class="footer-col">
-        <h4>课堂工具</h4>
-        <button type="button" data-open-class>课堂控制台</button>
+        <h4>辅助工具</h4>
+        <button type="button" data-open-class>演示控制台</button>
         <button type="button" data-open-sources>史料来源与说明</button>
         <button type="button" id="footerReset">重置学习进度</button>
       </div>
@@ -1649,19 +1654,19 @@ body.classroom .scene .art-dot{animation:none}
     <div class="note-box"><b>叙事原则：</b>不以文学性对白替代史料；不把地方口述史当作主干史实；对时间、职务、歌词版本等异说并列说明；文学性语句标注为“后人概括”或“叙事旁白”。历史定性参考国家统编高中历史教材《中外历史纲要（上）》相关单元；教材有更细致表述时，以教材为准。本页“时空问答”为基于上述史料的预设卡片，不是在线 AI 生成内容。</div>
     <div class="note-box"><b>公开课政治与地图提醒：</b>台湾是中国领土不可分割的一部分，1895—1945年被日本侵占；本页地图为人物行经路线示意，<b>不是完整疆域图</b>。底图采用 CHGIS 1911 年省级政区数据，1911 年省界与 1920 年代略有差异，图中按 1920 年代省名对照标注，不用于版图表达。中国版图以<a href="http://bzdt.ch.mnr.gov.cn/" target="_blank" rel="noopener">自然资源部标准地图服务</a>发布的标准地图为准；如学校有统一要求，请以标准地图替换本页路线示意。</div>
     <div class="note-box"><b>版本与辨析：</b>①《国民革命歌》的创作时间，有“1926年初/3月已收录”与“1926年7月北伐前夕”等说法，本页取“北伐前夕”的时段表述。②歌词有“努力国民革命”与“国民革命成功”等版本，本页从武昌农讲所歌单。③邝鄘职务多记为国民革命军政治部宣传科科长，另有“第四军宣传科科长”之说；本页表述为“在国民革命军政治部负责宣传，曾任宣传科科长”。④“矮人一点，技高一筹”主要见于地方报道，本页放在“地方记忆 · 待考”栏。⑤就义日期有6月15日与6月5日等说法，本页从中华英烈网、中国军网的6月15日说。⑥赴刑唱歌、脚趾夹笔等细节据耒阳地方报道，正文已加“据耒阳地方史料”限定。⑦姓名有“邝鄘”“邝墉”等异写，本页从中华英烈网、中国军网作“邝鄘”，黄埔军校同学会资料作“邝墉”。⑧《国民革命歌》又名《打倒列强》，曲调来源有《雅克兄弟》《约克兄弟》等译名。</div>
-    <div class="note-box"><b>图片与声音：</b>邝鄘照片来源为中华英烈网 / 中国军网英烈纪念堂，用于课堂教学展示；如需公开出版或商业使用，请自行核实授权。旋律由浏览器 Web Audio 实时合成，不加载外部音频。</div>
+    <div class="note-box"><b>图片与声音：</b>邝鄘照片来源为中华英烈网 / 中国军网英烈纪念堂，用于本页展示；如需公开出版或商业使用，请自行核实授权。旋律由浏览器 Web Audio 实时合成，不加载外部音频。</div>
   </div>
 </div>
 
-<!-- ============ 课堂控制台 ============ -->
+<!-- ============ 演示控制台 ============ -->
 <div class="modal" id="classModal" role="dialog" aria-modal="true" aria-labelledby="classTitle" aria-hidden="true">
   <div class="modal-panel">
     <button class="modal-close" type="button" data-close-modal aria-label="关闭">×</button>
     <p class="modal-kicker">CLASSROOM MODE</p>
-    <h2 class="modal-title" id="classTitle">课堂控制台</h2>
+    <h2 class="modal-title" id="classTitle">演示控制台</h2>
     <p>为公开课准备的控制面板：可以一键解锁、投影大字、全班齐唱，也可以把这一页当作完整的一课时来使用。</p>
     <div class="class-grid">
-      <button class="class-action" type="button" id="unlockAll"><b>解锁全部八程</b><span>课堂演示时跳过逐段解锁，直接点选任意一程。</span></button>
+      <button class="class-action" type="button" id="unlockAll"><b>解锁全部八程</b><span>跳过逐段解锁，直接点选任意一程。</span></button>
       <button class="class-action" type="button" id="classroomToggleModal" data-classroom-toggle><b data-classroom-label>开启投影大字</b><span>放大正文、减少动画，适合大屏投影。</span></button>
       <button class="class-action" type="button" id="classOpenSing"><b>全班齐唱</b><span>打开大字歌词与三拍倒计时，一起唱《国民革命歌》。</span></button>
       <button class="class-action danger" type="button" id="resetProgress"><b>重置学习进度</b><span>回到第一程，重新体验逐段解锁。</span></button>
@@ -1865,22 +1870,22 @@ body.classroom .scene .art-dot{animation:none}
   {
    "key": "hubei",
    "text": "湖北",
-   "x": 295.1,
-   "y": 395.3,
+   "x": 317.0,
+   "y": 396.9,
    "cls": "province"
   },
   {
    "key": "hunan",
    "text": "湖南",
-   "x": 243.1,
-   "y": 482.0,
+   "x": 308.8,
+   "y": 503.7,
    "cls": "province"
   },
   {
    "key": "guangdong",
    "text": "广东",
-   "x": 317.0,
-   "y": 607.2,
+   "x": 360.8,
+   "y": 631.1,
    "cls": "province"
   },
   {
@@ -1907,7 +1912,7 @@ body.classroom .scene .art-dot{animation:none}
   {
    "key": "taiwan",
    "text": "台湾",
-   "x": 564.9,
+   "x": 656.6,
    "y": 622.2,
    "cls": "province"
   }
@@ -3132,24 +3137,24 @@ body.classroom .scene .art-dot{animation:none}
   })();
 
   const PLACE_OFFSETS = {
-    leiyang: { dx: -14, dy: -8, anchor: 'end', sub: '' },
-    changsha: { dx: 14, dy: -8, anchor: 'start', sub: '' },
-    beijing: { dx: -14, dy: -8, anchor: 'end', sub: '京兆' },
-    guangzhou: { dx: -14, dy: 8, anchor: 'end', sub: '' },
-    wuchang: { dx: 14, dy: -8, anchor: 'start', sub: '' },
-    nanchang: { dx: -14, dy: 8, anchor: 'end', sub: '' },
-    jinggangshan: { dx: 14, dy: -9, anchor: 'start', sub: '' },
-    gutang: { dx: 14, dy: 12, anchor: 'start', sub: '就义地' }
+    leiyang: { dx: -16, dy: 14, anchor: 'end', sub: '' },
+    changsha: { dx: -20, dy: 16, anchor: 'end', sub: '' },
+    beijing: { dx: 16, dy: 10, anchor: 'start', sub: '京兆' },
+    guangzhou: { dx: -18, dy: -16, anchor: 'end', sub: '' },
+    wuchang: { dx: 16, dy: -16, anchor: 'start', sub: '' },
+    nanchang: { dx: 16, dy: 12, anchor: 'start', sub: '' },
+    jinggangshan: { dx: 16, dy: -12, anchor: 'start', sub: '' },
+    gutang: { dx: 16, dy: 14, anchor: 'start', sub: '就义地' }
   };
   const MOBILE_PLACE_OFFSETS = {
-    leiyang: { dx: -14, dy: -8, anchor: 'end', sub: '' },
-    changsha: { dx: -14, dy: -10, anchor: 'end', sub: '' },
-    beijing: { dx: -14, dy: -10, anchor: 'end', sub: '京兆' },
-    guangzhou: { dx: 14, dy: 10, anchor: 'start', sub: '' },
-    wuchang: { dx: -14, dy: -10, anchor: 'end', sub: '' },
-    nanchang: { dx: 14, dy: 8, anchor: 'start', sub: '' },
-    jinggangshan: { dx: 14, dy: -10, anchor: 'start', sub: '' },
-    gutang: { dx: 14, dy: 12, anchor: 'start', sub: '就义地' }
+    leiyang: { dx: -18, dy: 18, anchor: 'end', sub: '' },
+    changsha: { dx: -20, dy: 18, anchor: 'end', sub: '' },
+    beijing: { dx: 18, dy: 12, anchor: 'start', sub: '京兆' },
+    guangzhou: { dx: -18, dy: -18, anchor: 'end', sub: '' },
+    wuchang: { dx: 18, dy: -18, anchor: 'start', sub: '' },
+    nanchang: { dx: 18, dy: 16, anchor: 'start', sub: '' },
+    jinggangshan: { dx: 18, dy: -16, anchor: 'start', sub: '' },
+    gutang: { dx: 18, dy: 18, anchor: 'start', sub: '就义地' }
   };
 
   const renderMapSvg = () => {
@@ -3166,10 +3171,16 @@ body.classroom .scene .art-dot{animation:none}
     }).join('');
     const labels = MAP.labels.map(l => {
       const cluster = ['hunan', 'hubei', 'jiangxi', 'guangdong'].includes(l.key) ? 'cluster-province' : '';
-      const taiwanNote = l.key === 'taiwan'
-        ? `<text class="province-label taiwan-note" x="${l.x}" y="${l.y + 14}">中国领土</text><text class="province-label taiwan-note" x="${l.x}" y="${l.y + 24}">日占</text>`
-        : '';
-      return `<text class="province-label ${l.cls === 'province small' ? 'small' : ''} ${l.key === 'taiwan' ? 'taiwan' : ''} ${cluster}" x="${l.x}" y="${l.y}">${escapeHtml(l.text)}</text>${taiwanNote}`;
+      if (l.key === 'taiwan') {
+        return `<g class="taiwan-label">
+          <line class="taiwan-leader" x1="${l.x - 46}" y1="${l.y + 2}" x2="${l.x - 12}" y2="${l.y + 2}"></line>
+          <path class="taiwan-arrow" d="M${l.x - 54} ${l.y + 2} L${l.x - 46} ${l.y - 2} L${l.x - 46} ${l.y + 6} Z"></path>
+          <text class="province-label taiwan" x="${l.x}" y="${l.y}" text-anchor="start">${escapeHtml(l.text)}</text>
+          <text class="province-label taiwan-note" x="${l.x}" y="${l.y + 14}" text-anchor="start">中国领土</text>
+          <text class="province-label taiwan-note" x="${l.x}" y="${l.y + 25}" text-anchor="start">日占</text>
+        </g>`;
+      }
+      return `<text class="province-label ${l.cls === 'province small' ? 'small' : ''} ${l.key === 'taiwan' ? 'taiwan' : ''} ${cluster}" x="${l.x}" y="${l.y}">${escapeHtml(l.text)}</text>`;
     }).join('');
     const smallMap = window.innerWidth < 561;
     const cities = Object.keys(PLACES).filter(id => MAP.points[id]).map(id => {
@@ -3209,8 +3220,8 @@ body.classroom .scene .art-dot{animation:none}
       <rect x="0" y="0" width="760" height="760" fill="#efe3ca"></rect>
       <g id="mapZoom">
         <g class="province-layer">${provincePaths}</g>
-        <g class="label-layer">${labels}</g>
         <g class="route-layer">${legs}</g>
+        <g class="label-layer">${labels}</g>
         <g class="torch-layer"></g>
         <g class="city-layer">${cities}</g>
       </g>`;
@@ -3379,7 +3390,7 @@ body.classroom .scene .art-dot{animation:none}
 
     const cursor = document.createElementNS(SVG_NS, 'g');
     cursor.setAttribute('class', 'lead-arrow');
-    cursor.innerHTML = `<circle class="lead-dot" r="5.5"></circle><path class="lead-head" d="M-13 -7 L6 0 L-13 7Z"></path>`;
+    cursor.innerHTML = `<path class="lead-head" d="M-13 -7 L6 0 L-13 7Z"></path>`;
 
     layer.append(probe, glow, line, target, cursor);
     zoom.appendChild(layer);
@@ -4073,19 +4084,19 @@ body.classroom .scene .art-dot{animation:none}
     {
       q: '“矮人一点，技高一筹”是真的吗？',
       tag: '史实辨析',
-      a: '这是一个流传很广的耒阳地方故事：孙中山到黄埔军校检阅射击，邝鄘三枪打出30环，孙中山赞他“矮人一点，技高一筹”。权威史料可以确认的是：邝鄘1924年入黄埔军校第二期，成绩优异，毕业后留在军校政治宣传科工作；但这句具体赞语目前主要见于地方报道，带有民间传奇色彩。本页把它放在“地方记忆 · 待考”栏，不放进主干时间线。课堂上可以讲，但应明确说“这是地方流传的故事，不是已经坐实的史实”。',
+      a: '这是一个流传很广的耒阳地方故事：孙中山到黄埔军校检阅射击，邝鄘三枪打出30环，孙中山赞他“矮人一点，技高一筹”。权威史料可以确认的是：邝鄘1924年入黄埔军校第二期，成绩优异，毕业后留在军校政治宣传科工作；但这句具体赞语目前主要见于地方报道，带有民间传奇色彩。本页把它放在“地方记忆 · 待考”栏，不放进主干时间线。',
       source: '中国军网《邝鄘》；耒阳新闻网《杀了邝鄘，还有邝鄘》（地方报道，C级）'
     },
     {
       q: '他为什么在赴刑时唱这首歌？',
       tag: '文学解读',
-      a: '据耒阳地方史料，他赴刑时唱起自己写的《国民革命歌》。中华英烈网、中国军网等权威资料确认了他1928年6月15日就义、以及“杀了邝鄘，还有邝鄘”的八个字，但未记载唱歌这一细节。因此，本页在正文中加了“据耒阳地方史料”的限定。就义时用自己写的歌送自己上路，这个画面有很强的情感力量；课堂上可以讲，但要让学生知道它来自地方记忆，而不是所有权威史料都记载的细节。',
+      a: '据耒阳地方史料，他赴刑时唱起自己写的《国民革命歌》。中华英烈网、中国军网等权威资料确认了他1928年6月15日就义、以及“杀了邝鄘，还有邝鄘”的八个字，但未记载唱歌这一细节。因此，本页在正文中加了“据耒阳地方史料”的限定。',
       source: '中国军网《邝鄘》；中华英烈网；耒阳新闻网（地方报道，C级）'
     },
     {
       q: '1920年代的地图为什么和今天不一样？',
       tag: '历史地理',
-      a: '1920年代的中国，省制与今天不同：有京兆地方、直隶省、广西省等建制；上海在1927年设特别市；1928年直隶改称河北省；台湾是中国领土不可分割的一部分，1895—1945年被日本侵占。这张图以 CHGIS 1911 年历史省界为底图，按 1920 年代省名对照标注；1911 年省界与 1920 年代有差异，所以它不构成完整中国版图，也不是精确的 1920 年代历史政区图。中国版图以自然资源部标准地图服务发布的标准地图为准。读图时，先看“他走过哪里”，再看“这些地方当时叫什么”。',
+      a: '1920年代的中国，省制与今天不同：有京兆地方、直隶省、广西省等建制；上海在1927年设特别市；1928年直隶改称河北省；台湾是中国领土不可分割的一部分，1895—1945年被日本侵占。这张图以 CHGIS 1911 年历史省界为底图，按 1920 年代省名对照标注；1911 年省界与 1920 年代有差异，所以它不构成完整中国版图，也不是精确的 1920 年代历史政区图。中国版图以自然资源部标准地图服务发布的标准地图为准。',
       source: '地图为教学路线示意；中国版图以自然资源部标准地图服务为准；台湾问题表述以国家统一口径为准'
     },
     {
@@ -4117,8 +4128,7 @@ body.classroom .scene .art-dot{animation:none}
       <p class="answer-kicker">时空卡片 · ${escapeHtml(q.tag)}</p>
       <h3>${escapeHtml(q.q)}</h3>
       <div class="answer-text" id="answerText"></div>
-      <div class="answer-source"><b>史料依据</b><span>${escapeHtml(q.source)}</span><span class="tag">课堂提示</span></div>
-      <p class="answer-hint">点击左侧问题，换一张卡片。</p>`;
+      <div class="answer-source"><b>史料依据</b><span>${escapeHtml(q.source)}</span></div>`;
     const target = $('#answerText');
     clearInterval(answerTimer);
     if (!animate || prefersReduced) {
